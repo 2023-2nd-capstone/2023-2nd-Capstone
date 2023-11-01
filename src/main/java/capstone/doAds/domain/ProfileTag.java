@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ProfileTag {
 
     @Id @GeneratedValue
-    @Column(name = "profile_id")
+    @Column(name = "profile_tag_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,5 +22,5 @@ public class ProfileTag {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
-    private Tag tags;
+    private Tag tag;
 }
