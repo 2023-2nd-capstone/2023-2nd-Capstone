@@ -1,10 +1,11 @@
 package capstone.doAds.domain;
 
-import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ProfileTag {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "profile_tag_id")
     private Long id;
 

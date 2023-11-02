@@ -1,9 +1,10 @@
 package capstone.doAds.domain;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
@@ -11,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class YoutubeProfile {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "youtube_profile_id")
     private Long id;
 
