@@ -1,17 +1,18 @@
 package capstone.doAds.domain;
 
-import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 @Entity
-@Table(name = "likes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Likes {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "like_id")
     private Long id;
 

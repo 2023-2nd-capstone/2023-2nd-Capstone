@@ -1,10 +1,10 @@
 package capstone.doAds.domain;
 
-import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +13,8 @@ import java.util.List;
 @Getter
 public class Tag {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "tag_id")
     private Long id;
 

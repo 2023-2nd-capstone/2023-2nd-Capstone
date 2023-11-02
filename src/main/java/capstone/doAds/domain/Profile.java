@@ -1,10 +1,10 @@
 package capstone.doAds.domain;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -12,7 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class Profile {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "profile_id")
     private Long id;
 

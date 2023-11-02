@@ -1,9 +1,10 @@
 package capstone.doAds.domain;
 
-import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,4 +30,13 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Likes> likes = new ArrayList<>();
+
+    @Builder
+    public Member(String email, String password, String nickname, Authority authority, Profile profile) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.authority = authority;
+        this.profile = profile;
+    }
 }
