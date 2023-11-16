@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+<h1>User Profile</h1>
+
+<div th:if="${profile != null}">
+    <p th:text="'Nickname: ' + ${member.username}"></p>
+    <p th:text="'Email: ' + ${profile.email}"></p>
+    <p th:text="'Channel Name: ' + ${youtubeProfile.email}"></p>
+    <p th:text="'ProfileImage URL: ' + ${profile.profileImageUrl}"></p>
+    <p th:text="'Description: ' + ${profile.description}"></p>
+    <div th:if="${profile.profileTagNames != null and not #lists.isEmpty(profile.profileTagNames)}">
+        <p>Profile Tags:</p>
+        <ul>
+            <li th:each="tagName : ${profile.profileTagNames}" th:text="${tagName}"></li>
+        </ul>
+    </div>
+    <!-- Add more fields as needed -->
+</div>
+
+<div th:if="${profile == null}">
+    <p>User profile not found.</p>
+</div>
+</body>
+</html>
