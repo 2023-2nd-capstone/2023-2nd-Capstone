@@ -1,6 +1,7 @@
 package capstone.doAds.config;
 
 
+import capstone.doAds.auth.PrincipalDetailsService;
 import capstone.doAds.config.oauth.PrincipalOauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
 
+    @Autowired
+    private PrincipalDetailsService principalDetailsService;
+
     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
@@ -28,12 +32,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/loginForm")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/")
+                .anyRequest().permitAll();
+        http.formLogin().loginPage("/login").defaultSuccessUrl("/", true);
+        // 로그인이 수행될 uri 매핑 (post 요청이 기본)
+        http.formLogin().loginProcessingUrl("/login").defaultSuccessUrl("/", true);
+        // 인증된 사용자이지만 인가되지 않은 경로에 접근시 리다이랙팅 시킬 uri 지정
+        http.exceptionHandling().accessDeniedPage("/forbidden");
+        // logout
+        http.logout().logoutUrl("/logout").logoutSuccessUrl("/");
+
+        http.userDetailsService(principalDetailsService);
+        http.authorizeRequests()
                 .and()
                 .oauth2Login()
                 .loginPage("/loginForm")
