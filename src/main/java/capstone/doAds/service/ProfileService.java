@@ -1,8 +1,10 @@
 package capstone.doAds.service;
 
+import capstone.doAds.auth.SecurityUtils;
 import capstone.doAds.domain.Profile;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
 import capstone.doAds.exception.NotFoundException;
+import capstone.doAds.exception.UnauthorizedException;
 import capstone.doAds.repository.MemberRepository;
 import capstone.doAds.repository.ProfileRepository;
 import capstone.doAds.repository.YoutubeProfileRepository;
@@ -18,6 +20,7 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
     private final YoutubeProfileRepository youtubeProfileRepository;
     private final YoutubeApiService youtubeApiService;
+    private final MemberRepository memberRepository;
 
     public InfluencerProfileResponseDto getInfluencerProfile(Long profileId) {
         Profile profile = profileRepository.findById(profileId).orElseThrow(
@@ -25,4 +28,9 @@ public class ProfileService {
         return profile.getInfluencerProfile();
     }
 
+    public InfluencerProfileResponseDto getMyProfile() {
+        Profile profile = memberRepository.findByEmailFetchProfile(SecurityUtils.getLoggedUserEmail()).orElseThrow(
+                () -> new UnauthorizedException("로그인이 필요합니다.")).getProfile();
+        return profile.getInfluencerProfile();
+    }
 }
