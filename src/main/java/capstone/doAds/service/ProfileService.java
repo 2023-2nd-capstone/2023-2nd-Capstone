@@ -2,6 +2,7 @@ package capstone.doAds.service;
 
 import capstone.doAds.auth.SecurityUtils;
 import capstone.doAds.domain.Profile;
+import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
 import capstone.doAds.exception.NotFoundException;
 import capstone.doAds.exception.UnauthorizedException;
@@ -32,5 +33,12 @@ public class ProfileService {
         Profile profile = memberRepository.findByEmailFetchProfile(SecurityUtils.getLoggedUserEmail()).orElseThrow(
                 () -> new UnauthorizedException("로그인이 필요합니다.")).getProfile();
         return profile.getInfluencerProfile();
+    }
+
+    @Transactional
+    public void modifyMyProfile(Long profileId, InfluencerProfileModifyResponseDto influencerProfileModifyResponseDto) {
+        Profile profile = profileRepository.findById(profileId).get();
+        profile.modifyInfluencerProfile(influencerProfileModifyResponseDto);
+        profileRepository.save(profile);
     }
 }

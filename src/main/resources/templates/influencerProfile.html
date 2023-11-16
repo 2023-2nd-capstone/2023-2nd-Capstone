@@ -6,12 +6,13 @@
     <title>User Profile</title>
 </head>
 <body>
-<h1>User Profile</h1>
+<h1 th:text="${profile.nickname} + '의 프로필입니다'"></h1>
 
 <div th:if="${profile != null}">
-    <p th:text="'Nickname: ' + ${member.username}"></p>
+    <p th:text="'Nickname: ' + ${profile.nickname}"></p>
     <p th:text="'Email: ' + ${profile.email}"></p>
-    <p th:text="'Channel Name: ' + ${youtubeProfile.email}"></p>
+    <p th:text="'Channel Name: ' + ${profile.channelName}"></p>
+    <p th:text="'SubscribeCount: ' + ${profile.subscribeCount}"></p>
     <p th:text="'ProfileImage URL: ' + ${profile.profileImageUrl}"></p>
     <p th:text="'Description: ' + ${profile.description}"></p>
     <div th:if="${profile.profileTagNames != null and not #lists.isEmpty(profile.profileTagNames)}">
@@ -22,7 +23,7 @@
     </div>
     <!-- Add more fields as needed -->
 </div>
-
+<button th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
 <div th:if="${profile == null}">
     <p>User profile not found.</p>
 </div>
