@@ -15,17 +15,13 @@ import org.springframework.stereotype.Service;
 public class PrincipalDetailsService implements UserDetailsService {
 
     @Autowired
-    private MemberRepository usersRepository;
+    private MemberRepository memberRepository;
 
     // 시큐리티 session(내부 Authentication(내부 UserDetails))
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member users = usersRepository.findByEmail(username);
-        if (users != null) {
-            return new PrincipalDetails(users);
-            // 리턴될 때 시큐리티 session(내부 Authentication(내부 UserDetails)) 이런식으로
-            // 값이 들어가고, 로그인 처리가 됨
-        }
-        return null;
+        Member member = memberRepository.findByEmail(username).orElseThrow(() -> new IllegalArgumentException("로그인이 안되있음"));
+        return new PrincipalDetails(member);
     }
+
 }
