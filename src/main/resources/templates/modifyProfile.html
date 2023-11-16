@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+</head>
+<body>
+<h1 th:text="${profile.nickname} + '의 프로필 수정'"></h1>
+
+<div th:if="${profile != null}">
+  <form th:action="@{/profile/{profileId}/modifyProfile(profileId=${profile.profileId})}" th:object="${profile}" method="post" >
+    <label for="nickname">Nickname:</label><br>
+    <input type="text" id="nickname" name="nickname" th:value="${profile.nickname}"><br>
+
+    <label for="profileImageUrl">Profile Image URL:</label><br>
+    <input type="text" id="profileImageUrl" name="profileImageUrl" th:value="${profile.profileImageUrl}"><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" th:text="${profile.description}"></textarea><br>
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+<div th:if="${profile == null}">
+  <p>User profile not found. Unable to edit.</p>
+</div>

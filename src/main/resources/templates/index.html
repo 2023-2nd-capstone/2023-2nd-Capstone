@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>인덱스페이지</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
 </head>
 <body>
-    <h1>이정우 님 환영합니다!</h1>
+<div th:if="${nickname != null}">
+    <h1 th:text="${nickname} + '님 안녕하세요!'"></h1>
+    <button th:attr="onclick='location.href=\'' + @{/profile/{profileId}(profileId=${profileId})} + '\''">프로필 바로가기</button>
+</div>
+<div th:if="${nickname == null}">
+    <h1>안녕하세요!</h1>
+</div>
 </body>
 </html>

@@ -39,4 +39,8 @@ public class Member {
         this.authority = authority;
         this.profile = new Profile();
     }
+
+    public void modifyNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
