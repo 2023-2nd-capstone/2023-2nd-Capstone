@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 
 @Entity
 @AllArgsConstructor
@@ -21,11 +22,18 @@ public class YoutubeProfile {
 
     private String channelInfo;
 
-    private Long subscribeCount;
+    private BigInteger subscribeCount;
 
     private String backgroundPhotoUrl;
 
     @OneToOne(mappedBy = "youtubeProfile")
     private Profile profile;
+
+    public YoutubeProfile(String channelName, String channelInfo, BigInteger subscribeCount, String backgroundPhotoUrl) {
+        this.channelName = channelName;
+        this.channelInfo = channelInfo;
+        this.subscribeCount = subscribeCount;
+        this.backgroundPhotoUrl = backgroundPhotoUrl;
+    }
 
 }
