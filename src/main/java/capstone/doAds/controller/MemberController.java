@@ -2,9 +2,11 @@ package capstone.doAds.controller;
 
 import capstone.doAds.auth.SecurityUtils;
 import capstone.doAds.domain.Member;
+import capstone.doAds.dto.InfluencerProfileResponseDto;
 import capstone.doAds.dto.JoinDto;
 import capstone.doAds.repository.MemberRepository;
 import capstone.doAds.service.MemberService;
+import capstone.doAds.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
+
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -48,4 +51,10 @@ public class MemberController {
         return "redirect:/loginForm";
     }
 
+    @GetMapping("/myProfile")
+    public String getMyProfile(Model model) {
+        InfluencerProfileResponseDto influencerProfileResponseDto = profileService.getMyProfile();
+        model.addAttribute("myProfile", influencerProfileResponseDto);
+        return "myProfile";
+    }
 }
