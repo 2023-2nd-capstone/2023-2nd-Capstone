@@ -33,7 +33,7 @@ public class YoutubeApiService {
     /** Global instance of Youtube object to make all API requests. */
     private static YouTube youtube;
 
-    private static String PRIVATE_KEY = "test";
+    private static String PRIVATE_KEY = "AIzaSyBHs3bBdPSGlMUYScrYJw-fQCcTl6bQMuw";
     private static String TEST_CHANNEL_ID = "UCty5zhtfWJJ-C5YP8bbRS0g";
 
     public List<Video> getPopularVideos() {
