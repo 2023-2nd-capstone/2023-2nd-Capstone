@@ -25,7 +25,7 @@ public class YoutubeProfile {
 
     private String backgroundPhotoUrl;
 
-    @OneToOne(mappedBy = "profile")
+    @OneToOne(mappedBy = "youtubeProfile")
     private Profile profile;
 
 }

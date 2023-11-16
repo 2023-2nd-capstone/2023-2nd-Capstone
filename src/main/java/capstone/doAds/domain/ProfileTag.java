@@ -25,4 +25,9 @@ public class ProfileTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     private Tag tag;
+
+    //-- 연관관계 메서드 --//
+    public String getTagName() {
+        return tag.getName();
+    }
 }

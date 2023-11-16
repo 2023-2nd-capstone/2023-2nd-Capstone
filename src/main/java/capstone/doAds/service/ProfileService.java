@@ -1,11 +1,11 @@
 package capstone.doAds.service;
 
 import capstone.doAds.domain.Profile;
+import capstone.doAds.dto.InfluencerProfileResponseDto;
 import capstone.doAds.exception.NotFoundException;
 import capstone.doAds.repository.MemberRepository;
 import capstone.doAds.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
-    private final MemberRepository memberRepository;
 
     public InfluencerProfileResponseDto getInfluencerProfile(Long profileId) {
         Profile profile = profileRepository.findById(profileId).orElseThrow(
