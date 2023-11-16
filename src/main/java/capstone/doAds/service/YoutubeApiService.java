@@ -34,7 +34,6 @@ public class YoutubeApiService {
     private static YouTube youtube;
 
     private static String PRIVATE_KEY = "AIzaSyBHs3bBdPSGlMUYScrYJw-fQCcTl6bQMuw";
-    private static String TEST_CHANNEL_ID = "UCty5zhtfWJJ-C5YP8bbRS0g";
 
     public List<Video> getPopularVideos() {
 
@@ -83,7 +82,7 @@ public class YoutubeApiService {
 
             String apiKey = PRIVATE_KEY;
             channels.setKey(apiKey);
-            channels.setId(TEST_CHANNEL_ID);
+            channels.setId("UCqrXuo5LpHKWVCqvBBjjsuw");
             channels.setMaxResults(1l);
 
             ChannelListResponse channelListResponse = channels.execute();

@@ -37,6 +37,6 @@ public class Member {
         this.password = password;
         this.nickname = nickname;
         this.authority = authority;
-        this.profile = profile;
+        this.profile = new Profile();
     }
 }

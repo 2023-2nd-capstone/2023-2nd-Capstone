@@ -7,6 +7,7 @@ import capstone.doAds.exception.NotFoundException;
 import capstone.doAds.exception.UnauthorizedException;
 import capstone.doAds.repository.MemberRepository;
 import capstone.doAds.repository.ProfileRepository;
+import capstone.doAds.repository.YoutubeProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
+    private final YoutubeProfileRepository youtubeProfileRepository;
+    private final YoutubeApiService youtubeApiService;
     private final MemberRepository memberRepository;
 
     public InfluencerProfileResponseDto getInfluencerProfile(Long profileId) {
