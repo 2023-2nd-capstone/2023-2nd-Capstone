@@ -1,6 +1,7 @@
 package capstone.doAds.controller;
 
 import capstone.doAds.auth.PrincipalDetails;
+import capstone.doAds.auth.SecurityUtils;
 import capstone.doAds.domain.Authority;
 import capstone.doAds.domain.Member;
 import capstone.doAds.dto.JoinDto;
@@ -67,9 +68,10 @@ public class IndexController {
     }
 
     @GetMapping("/user/test")
-    public @ResponseBody String test(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        System.out.println("principalDetails = " + principalDetails.getUsers());
-        System.out.println("principalDetails = " + principalDetails);
+    public @ResponseBody String test() {
+        Member member = memberRepository.findByEmail(SecurityUtils.getLoggedUserEmail()).orElseThrow(() -> new IllegalArgumentException("ㅇㅅㅇ"));
+        System.out.println(member.getNickname());
+        System.out.println(member.getEmail());
         return "회원 정보 출력 성공";
     }
 }

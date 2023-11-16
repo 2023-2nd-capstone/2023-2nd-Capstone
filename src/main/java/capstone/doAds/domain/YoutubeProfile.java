@@ -25,7 +25,7 @@ public class YoutubeProfile {
 
     private String backgroundPhotoUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id")
+    @OneToOne(mappedBy = "profile")
     private Profile profile;
+
 }

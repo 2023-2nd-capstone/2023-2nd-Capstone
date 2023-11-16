@@ -21,8 +21,9 @@ public class Profile {
 
     private Long likeCount = 0l;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<YoutubeProfile> youtubeProfiles;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "youtube_profile_id")
+    private YoutubeProfile youtubeProfile;
 
     @OneToOne(mappedBy = "profile", fetch = FetchType.LAZY)
     private Member member;

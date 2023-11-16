@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,11 +32,12 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
         }
         String email = oAuth2UserInfo.getEmail();
-        Member member = memberRepository.findByEmail(email);
-        if (member == null) {
-            member = oAuthJoin(oAuth2UserInfo);
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isEmpty()) {
+            Member member1 = oAuthJoin(oAuth2UserInfo);
+            return new PrincipalDetails(member1, oAuth2User.getAttributes());
         }
-        return new PrincipalDetails(member, oAuth2User.getAttributes());
+        return new PrincipalDetails(member.get(), oAuth2User.getAttributes());
     }
 
     @Transactional
