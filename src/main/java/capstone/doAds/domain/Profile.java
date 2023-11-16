@@ -3,16 +3,13 @@ package capstone.doAds.domain;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 public class Profile {
     @Id
@@ -35,6 +32,15 @@ public class Profile {
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProfileTag> profileTags = new ArrayList<>();
+
+    public Profile() {
+        this.description = "프로필 설명을 수정해주세요!";
+        this.likeCount = 0l;
+    }
+
+    public void setYoutubeProfile(YoutubeProfile youtubeProfile) {
+        this.youtubeProfile = youtubeProfile;
+    }
 
     //--연관관계 메서드--//
     private List<String> getProfileTagNames() {

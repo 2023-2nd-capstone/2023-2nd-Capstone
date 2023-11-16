@@ -5,8 +5,13 @@ import capstone.doAds.config.oauth.provider.GoogleUserInfo;
 import capstone.doAds.config.oauth.provider.OAuth2UserInfo;
 import capstone.doAds.domain.Authority;
 import capstone.doAds.domain.Member;
+import capstone.doAds.domain.YoutubeProfile;
 import capstone.doAds.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import capstone.doAds.repository.YoutubeProfileRepository;
+import capstone.doAds.service.YoutubeApiService;
+import com.google.api.services.youtube.model.Channel;
+import com.google.api.services.youtube.model.ThumbnailDetails;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -14,14 +19,18 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final YoutubeApiService youtubeApiService;
+    private final YoutubeProfileRepository youtubeProfileRepository;
 
     @Override
     @Transactional
@@ -49,6 +58,22 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                 .authority(Authority.ROLE_INFLUENCER)
                 .build();
         memberRepository.save(member);
+        setYoutubeProfile(member);
         return member;
+    }
+
+    @Transactional
+    public void setYoutubeProfile(Member member) {
+        List<Channel> channelData = youtubeApiService.getChannelData();
+        Channel channel = channelData.get(0);
+        String title = channel.getSnippet().getTitle();
+        String description = channel.getSnippet().getDescription();
+        BigInteger subscriberCount = channel.getStatistics().getSubscriberCount();
+        ThumbnailDetails thumbnails = channel.getSnippet().getThumbnails();
+        String imageUrl = thumbnails.getDefault().getUrl();
+        YoutubeProfile youtubeProfile = new YoutubeProfile(title, description, subscriberCount, imageUrl);
+        youtubeProfileRepository.save(youtubeProfile);
+        member.getProfile().setYoutubeProfile(youtubeProfile);
+        memberRepository.save(member);
     }
 }
