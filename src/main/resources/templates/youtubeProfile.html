@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+</head>
+<body>
+<h1 th:text="${profile.nickname} + '의 유튜브 프로필입니다'"></h1>
+
+<div th:if="${profile != null}">
+  <p th:text="'Nickname: ' + ${profile.nickname}"></p>
+  <p th:text="'Email: ' + ${profile.email}"></p>
+  <p th:text="'Channel Name: ' + ${profile.youtubeProfileDto.channelName}"></p>
+  <p th:text="'Channel Description: ' + ${profile.youtubeProfileDto.description}"></p>
+  <p th:text="'SubscribeCount: ' + ${profile.youtubeProfileDto.subscribeCount}"></p>
+  <!-- Add more fields as needed -->
+</div>
+<button th:onclick="'window.history.back()'">뒤로 가기</button>
+<div th:if="${profile == null}">
+  <p>User profile not found.</p>
+</div>
+</body>
+</html>

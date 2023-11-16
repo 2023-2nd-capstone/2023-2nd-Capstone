@@ -2,6 +2,7 @@ package capstone.doAds.domain;
 
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
+import capstone.doAds.dto.YoutubeProfileDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -55,15 +56,27 @@ public class Profile {
 
     //-- 서비스 로직--//
     public InfluencerProfileResponseDto getInfluencerProfile() {
+        if (youtubeProfile == null) {
+            return new InfluencerProfileResponseDto(
+                    this.id,
+                    member.getNickname(),
+                    member.getEmail(),
+                    this.profileImageUrl,
+                    this.getDescription(),
+                    this.getProfileTagNames());
+        }
         return new InfluencerProfileResponseDto(
                 this.id,
                 member.getNickname(),
                 member.getEmail(),
-                youtubeProfile.getChannelName(),
-                youtubeProfile.getBackgroundPhotoUrl(),
+                this.profileImageUrl,
                 this.getDescription(),
-                youtubeProfile.getSubscribeCount(),
-                this.getProfileTagNames());
+                this.getProfileTagNames(),
+                getYoutubeProfile());
+    }
+
+    public YoutubeProfileDto getYoutubeProfile() {
+        return new YoutubeProfileDto(youtubeProfile.getChannelName(), youtubeProfile.getSubscribeCount(), youtubeProfile.getChannelInfo());
     }
 
     public void modifyInfluencerProfile(InfluencerProfileModifyResponseDto influencerProfileModifyResponseDto) {

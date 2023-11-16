@@ -2,6 +2,7 @@ package capstone.doAds.controller;
 
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
+import capstone.doAds.dto.YoutubeProfileDto;
 import capstone.doAds.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,13 @@ public class ProfileController {
        InfluencerProfileResponseDto influencerProfileResponseDto = profileService.getInfluencerProfile(profileId);
        model.addAttribute("profile", influencerProfileResponseDto);
        return "influencerProfile";
+    }
+
+    @GetMapping("/profile/{profile_id}/youtube-profile")
+    public String getYoutubeProfile(@PathVariable("profile_id") Long profileId, Model model) {
+        InfluencerProfileResponseDto influencerProfile = profileService.getInfluencerProfile(profileId);
+        model.addAttribute("profile", influencerProfile);
+        return "youtubeProfile";
     }
 
     @GetMapping("/profile/{profile_id}/modifyProfile")

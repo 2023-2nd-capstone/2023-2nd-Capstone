@@ -11,8 +11,6 @@
 <div th:if="${profile != null}">
     <p th:text="'Nickname: ' + ${profile.nickname}"></p>
     <p th:text="'Email: ' + ${profile.email}"></p>
-    <p th:text="'Channel Name: ' + ${profile.channelName}"></p>
-    <p th:text="'SubscribeCount: ' + ${profile.subscribeCount}"></p>
     <p th:text="'ProfileImage URL: ' + ${profile.profileImageUrl}"></p>
     <p th:text="'Description: ' + ${profile.description}"></p>
     <div th:if="${profile.profileTagNames != null and not #lists.isEmpty(profile.profileTagNames)}">
@@ -22,6 +20,9 @@
         </ul>
     </div>
     <!-- Add more fields as needed -->
+</div>
+<div th:if="${profile.youtubeProfileDto != null}">
+<button th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/youtube-profile\''">유튜브 프로필</button>
 </div>
 <button th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
 <div th:if="${profile == null}">
