@@ -9,9 +9,9 @@
 <h1>User Profile</h1>
 
 <div th:if="${profile != null}">
-    <p th:text="'Nickname: ' + ${member.username}"></p>
+    <p th:text="'Nickname: ' + ${profile.nickname}"></p>
     <p th:text="'Email: ' + ${profile.email}"></p>
-    <p th:text="'Channel Name: ' + ${youtubeProfile.email}"></p>
+    <p th:text="'Channel Name: ' + ${profile.channelName}"></p>
     <p th:text="'ProfileImage URL: ' + ${profile.profileImageUrl}"></p>
     <p th:text="'Description: ' + ${profile.description}"></p>
     <div th:if="${profile.profileTagNames != null and not #lists.isEmpty(profile.profileTagNames)}">
