@@ -52,6 +52,14 @@ public class Profile {
         return tagNames;
     }
 
+    public void addTags(ProfileTag profileTag) {
+        this.profileTags.add(profileTag);
+    }
+
+    public void resetTags() {
+        this.profileTags.clear();
+    }
+
 
     //-- 서비스 로직--//
     public InfluencerProfileResponseDto getInfluencerProfile() {

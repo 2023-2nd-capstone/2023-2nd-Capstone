@@ -2,13 +2,13 @@ package capstone.doAds.service;
 
 import capstone.doAds.auth.SecurityUtils;
 import capstone.doAds.domain.Profile;
+import capstone.doAds.domain.ProfileTag;
+import capstone.doAds.domain.Tag;
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
 import capstone.doAds.exception.NotFoundException;
 import capstone.doAds.exception.UnauthorizedException;
-import capstone.doAds.repository.MemberRepository;
-import capstone.doAds.repository.ProfileRepository;
-import capstone.doAds.repository.YoutubeProfileRepository;
+import capstone.doAds.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +22,8 @@ public class ProfileService {
     private final YoutubeProfileRepository youtubeProfileRepository;
     private final YoutubeApiService youtubeApiService;
     private final MemberRepository memberRepository;
+    private final TagRepository tagRepository;
+    private final ProfileTagRepository profileTagRepository;
 
     public InfluencerProfileResponseDto getInfluencerProfile(Long profileId) {
         Profile profile = profileRepository.findById(profileId).orElseThrow(
@@ -38,7 +40,13 @@ public class ProfileService {
     @Transactional
     public void modifyMyProfile(Long profileId, InfluencerProfileModifyResponseDto influencerProfileModifyResponseDto) {
         Profile profile = profileRepository.findById(profileId).get();
+        profile.resetTags();
         profile.modifyInfluencerProfile(influencerProfileModifyResponseDto);
+
+        for (String tagName : influencerProfileModifyResponseDto.getTags()) {
+            Tag tag = tagRepository.findByName(tagName);
+            profileTagRepository.save(new ProfileTag(profile, tag));
+        }
         profileRepository.save(profile);
     }
 }

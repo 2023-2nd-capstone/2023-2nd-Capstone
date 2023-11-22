@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,6 +18,7 @@ public class Tag {
 
     private String name;
 
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
-    private List<ProfileTag> profileTags = new ArrayList<>();
+    public Tag(String name) {
+        this.name = name;
+    }
 }

@@ -19,6 +19,11 @@
     <label for="description">Description:</label><br>
     <textarea id="description" name="description" rows="4" cols="50" th:text="${profile.description}"></textarea><br>
 
+    <div th:each="tag : ${tagNames}">
+      <input type="checkbox" id="tag" name="profileTagNames" th:value="${tag}" th:checked="${profile.profileTagNames.contains(tag)}">
+      <label th:text="${tag}"></label><br>
+    </div>
+
     <input type="submit" value="Submit">
   </form>
 </div>

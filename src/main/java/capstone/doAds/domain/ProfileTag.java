@@ -30,4 +30,10 @@ public class ProfileTag {
     public String getTagName() {
         return tag.getName();
     }
+
+    public ProfileTag(Profile profile, Tag tag) {
+        this.profile = profile;
+        this.tag = tag;
+        profile.addTags(this);
+    }
 }
