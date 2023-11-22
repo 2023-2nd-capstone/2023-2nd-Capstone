@@ -1,6 +1,7 @@
 package capstone.doAds.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,11 @@ public class Likes {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_id")
     private Member member;
+
+    @Builder
+    public Likes(Profile profile, Member member) {
+        this.profile = profile;
+        this.member = member;
+        this.profile.increaseLikesCount();
+    }
 }

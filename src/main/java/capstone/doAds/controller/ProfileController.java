@@ -2,23 +2,24 @@ package capstone.doAds.controller;
 
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
+import capstone.doAds.service.LikesService;
 import capstone.doAds.service.ProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class ProfileController {
 
     private final ProfileService profileService;
+    private final LikesService likesService;
 
     @GetMapping("/profile/{profile_id}")
     public String getInfluencerProfile(@PathVariable("profile_id") Long profileId, Model model) {
@@ -44,4 +45,9 @@ public class ProfileController {
         return "redirect:/profile/" + profileId;
     }
 
+    @PostMapping("/profile/{profile_id}/likes")
+    public ResponseEntity<String> likeProfile(@PathVariable("profile_id") Long profileId, Model model) {
+        boolean liked = likesService.like(profileId);
+        return ResponseEntity.ok(liked ? "Liked" : "Unliked");
+    }
 }

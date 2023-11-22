@@ -71,4 +71,12 @@ public class Profile {
         this.profileImageUrl = influencerProfileModifyResponseDto.getProfileImageUrl();
         member.modifyNickname(influencerProfileModifyResponseDto.getNickname());
     }
+
+    public Long decreaseLikesCount() {
+        return --likeCount;
+    }
+
+    public Long increaseLikesCount() {
+        return ++likeCount;
+    }
 }
