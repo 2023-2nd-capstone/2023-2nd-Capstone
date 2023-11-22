@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberController {
 
-
+    private final ProfileService profileService;
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberService memberService;
