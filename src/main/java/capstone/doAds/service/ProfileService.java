@@ -1,9 +1,11 @@
 package capstone.doAds.service;
 
 import capstone.doAds.auth.SecurityUtils;
+import capstone.doAds.domain.Member;
 import capstone.doAds.domain.Profile;
 import capstone.doAds.domain.ProfileTag;
 import capstone.doAds.domain.Tag;
+import capstone.doAds.dto.FeedDto;
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
 import capstone.doAds.exception.NotFoundException;
@@ -12,6 +14,9 @@ import capstone.doAds.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,15 +31,18 @@ public class ProfileService {
     private final ProfileTagRepository profileTagRepository;
 
     public InfluencerProfileResponseDto getInfluencerProfile(Long profileId) {
+        Member member = memberRepository.findByEmailFetchProfile(SecurityUtils.getLoggedUserEmail()).orElseThrow(
+                () -> new NotFoundException("로그인이 필요합니다.")
+        );
         Profile profile = profileRepository.findById(profileId).orElseThrow(
                 () -> new NotFoundException("프로필(아이디: " + profileId + ")를 찾을 수 없습니다."));
-        return profile.getInfluencerProfile();
+        return profile.getInfluencerProfile(member.getProfile().equals(profile));
     }
 
     public InfluencerProfileResponseDto getMyProfile() {
         Profile profile = memberRepository.findByEmailFetchProfile(SecurityUtils.getLoggedUserEmail()).orElseThrow(
                 () -> new UnauthorizedException("로그인이 필요합니다.")).getProfile();
-        return profile.getInfluencerProfile();
+        return profile.getInfluencerProfile(true);
     }
 
     @Transactional
@@ -48,5 +56,27 @@ public class ProfileService {
             profileTagRepository.save(new ProfileTag(profile, tag));
         }
         profileRepository.save(profile);
+    }
+
+    public List<FeedDto> getFeed() {
+        List<Profile> profiles = profileRepository.findAll();
+        return profiles.stream()
+                .filter(profile -> profile.getYoutubeProfile() != null)
+                .map(profile -> new FeedDto(profile))
+                .collect(Collectors.toList());
+    }
+
+    public List<FeedDto> getFeedByPopular() {
+        return profileRepository.findProfileByPopular().stream()
+                .filter(profile -> profile.getYoutubeProfile() != null)
+                .map(profile -> new FeedDto(profile))
+                .collect(Collectors.toList());
+    }
+
+    public List<FeedDto> getFeedByTag(String tagName) {
+        return profileRepository.findProfileByTagName(tagName).stream()
+                .filter(profile -> profile.getYoutubeProfile() != null && profile.getProfileTagNames().contains(tagName))
+                .map(profile -> new FeedDto(profile))
+                .collect(Collectors.toList());
     }
 }

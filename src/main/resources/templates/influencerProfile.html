@@ -23,7 +23,10 @@
     </div>
     <!-- Add more fields as needed -->
 </div>
-<button th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
+<form th:if="${profile.isMine == false}" th:action="@{/profile/{profileId}/likes(profileId=${profile.profileId})}" method="post">
+    <input type="submit" value="좋아요">
+</form>
+<button th:if="${profile.isMine == true}" th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
 <div th:if="${profile == null}">
     <p>User profile not found.</p>
 </div>
