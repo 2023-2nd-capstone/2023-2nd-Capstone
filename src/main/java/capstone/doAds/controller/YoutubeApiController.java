@@ -14,13 +14,13 @@ import java.util.List;
 public class YoutubeApiController {
     private final YoutubeApiService youtubeApiService;
 
-    @GetMapping("/popularVideos")
-    public List<Video> getPopularVideos() {
-        return youtubeApiService.getPopularVideos();
-    }
-
-    @GetMapping("/channelData")
-    public List<Channel> getChannelData() {
-        return youtubeApiService.getChannelData();
-    }
+//    @GetMapping("/popularVideos")
+//    public List<Video> getPopularVideos() {
+//        return youtubeApiService.getPopularVideos();
+//    }
+//
+//    @GetMapping("/channelData")
+//    public List<Channel> getChannelData() {
+//        return youtubeApiService.getChannelData("123");
+//    }
 }
