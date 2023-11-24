@@ -1,5 +1,6 @@
 package capstone.doAds.controller;
 
+import capstone.doAds.dto.FeedDto;
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
 import capstone.doAds.dto.NicknameSearchResponseDto;
@@ -49,19 +50,34 @@ public class ProfileController {
                                 @RequestParam("profileImageUrl") String profileImageUrl,
                                 @RequestParam("description") String description,
                                 @RequestParam(value = "profileTagNames", required = false) List<String> selectedTags) {
-        if (selectedTags == null) {
-            selectedTags = new ArrayList<>();
-        }
-        System.out.println(selectedTags);
+        if (selectedTags == null) selectedTags = new ArrayList<>();
         InfluencerProfileModifyResponseDto influencerProfileModifyResponseDto = new InfluencerProfileModifyResponseDto(nickname, profileImageUrl, description, selectedTags);
         profileService.modifyMyProfile(profileId, influencerProfileModifyResponseDto);
         return "redirect:/profile/" + profileId;
     }
 
     @PostMapping("/profile/{profile_id}/likes")
-    public ResponseEntity<String> likeProfile(@PathVariable("profile_id") Long profileId, Model model) {
-        boolean liked = likesService.like(profileId);
-        return ResponseEntity.ok(liked ? "Liked" : "Unliked");
+    public String likeProfile(@PathVariable("profile_id") Long profileId, Model model) {
+        likesService.like(profileId);
+        return "redirect:/profile/" + profileId;
+    }
+
+    @GetMapping("/")
+    public String mainFeed(@RequestParam(name = "sortBy", defaultValue = "date") String sortBy,
+                           @RequestParam(name = "tag", required = false) String tag,
+                           Model model) {
+        List<FeedDto> feed;
+        if ("popularity".equals(sortBy)) {
+            feed = profileService.getFeedByPopular();
+        } else if ("tag".equals(sortBy) && tag != null) {
+            feed = profileService.getFeedByTag(tag);
+        } else {
+            feed = profileService.getFeed();
+        }
+        List<String> tagNames = tagService.getTagNames();
+        model.addAttribute("feed", feed);
+        model.addAttribute("tagNames", tagNames);
+        return "feed";
     }
 
     @GetMapping("/search")
