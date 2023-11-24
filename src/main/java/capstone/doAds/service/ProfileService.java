@@ -58,7 +58,7 @@ public class ProfileService {
         }
         profileRepository.save(profile);
     }
-
+  
     public List<NicknameSearchResponseDto> getProfileByNickname(String nickname) {
         List<Profile> profiles = profileRepository.findAllByNickname(nickname);
         return profiles.stream().map(p -> p.getNicknameSearch()).collect(Collectors.toList());
