@@ -2,6 +2,7 @@ package capstone.doAds.controller;
 
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
+import capstone.doAds.dto.NicknameSearchResponseDto;
 import capstone.doAds.service.LikesService;
 import capstone.doAds.service.ProfileService;
 import capstone.doAds.service.TagService;
@@ -56,9 +57,26 @@ public class ProfileController {
         profileService.modifyMyProfile(profileId, influencerProfileModifyResponseDto);
         return "redirect:/profile/" + profileId;
     }
+
     @PostMapping("/profile/{profile_id}/likes")
     public ResponseEntity<String> likeProfile(@PathVariable("profile_id") Long profileId, Model model) {
         boolean liked = likesService.like(profileId);
         return ResponseEntity.ok(liked ? "Liked" : "Unliked");
+    }
+
+    @GetMapping("/search")
+    public String showSearchForm() {
+        return "nicknameSearchForm";
+    }
+
+
+    @PostMapping("/search")
+    public String getProfileByNickname(@RequestParam("nickname") String nickname, Model model) {
+        List<NicknameSearchResponseDto> searchResults = profileService.getProfileByNickname(nickname);
+
+        model.addAttribute("searchResults", searchResults);
+        model.addAttribute("searchQuery", nickname);
+
+        return "nicknameSearchResult";
     }
 }

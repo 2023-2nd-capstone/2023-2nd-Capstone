@@ -1,0 +1,35 @@
+<!-- profileSearchResultsView.html -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+<h1>Search Results for <span th:text="${searchQuery}"></span></h1>
+
+<p th:if="${searchResults.isEmpty()}" class="no-results-message" th:text="'No profiles found for ' + ${searchQuery} + '.'"></p>
+
+<ul th:if="${not searchResults.isEmpty()}">
+    <!-- searchResults에 있는 각 NicknameSearchResponseDto를 순회하며 정보를 출력 -->
+    <li th:each="result : ${searchResults}">
+        <p th:text="'Nickname: ' + ${result.nickname}"></p>
+        <p th:text="'ProfileImageUrl: ' + ${result.profileImageUrl}"></p>
+        <p th:text="'Channel Name: ' + ${result.channelName}"></p>
+        <p th:text="'Like Count: ' + ${result.likeCount}"></p>
+        <!-- 변경된 부분: Tags 출력을 상위 p 태그 밖으로 이동 -->
+        <p>Tags:</p>
+        <ul>
+            <!-- 각 태그의 이름을 순회하며 출력 -->
+            <li th:each="tag : ${result.tagNames}">
+                <p th:text="'Tag: ' + ${tag}"></p>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+</body>
+</html>

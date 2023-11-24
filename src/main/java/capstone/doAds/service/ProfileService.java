@@ -1,17 +1,23 @@
 package capstone.doAds.service;
 
 import capstone.doAds.auth.SecurityUtils;
+import capstone.doAds.domain.Member;
 import capstone.doAds.domain.Profile;
 import capstone.doAds.domain.ProfileTag;
 import capstone.doAds.domain.Tag;
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
+import capstone.doAds.dto.NicknameSearchResponseDto;
 import capstone.doAds.exception.NotFoundException;
 import capstone.doAds.exception.UnauthorizedException;
 import capstone.doAds.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -48,5 +54,10 @@ public class ProfileService {
             profileTagRepository.save(new ProfileTag(profile, tag));
         }
         profileRepository.save(profile);
+    }
+
+    public List<NicknameSearchResponseDto> getProfileByNickname(String nickname) {
+        List<Profile> profiles = profileRepository.findAllByNickname(nickname);
+        return profiles.stream().map(p -> p.getNicknameSearch()).collect(Collectors.toList());
     }
 }
