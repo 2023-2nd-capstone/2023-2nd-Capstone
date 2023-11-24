@@ -24,7 +24,7 @@ public class MemberController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberService memberService;
 
-    @GetMapping("/")
+    @GetMapping("/myPage")
     public String home(Model model) {
         String loggedUserEmail = SecurityUtils.getLoggedUserEmail();
         Optional<Member> member = memberRepository.findByEmail(loggedUserEmail);

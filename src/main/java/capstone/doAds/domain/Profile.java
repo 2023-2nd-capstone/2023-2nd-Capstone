@@ -21,6 +21,7 @@ public class Profile {
 
     private String description;
 
+    @Column(length = 1000)
     private String profileImageUrl;
 
     private Long likeCount = 0l;
@@ -38,14 +39,16 @@ public class Profile {
     public Profile() {
         this.description = "프로필 설명을 수정해주세요!";
         this.likeCount = 0l;
+        this.profileImageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMyAg/MDAxNjA0MjI5NDA4NDMy.5zGHwAo_UtaQFX8Hd7zrDi1WiV5KrDsPHcRzu3e6b8Eg.IlkR3QN__c3o7Qe9z5_xYyCyr2vcx7L_W1arNFgwAJwg.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%8C%8C%EC%8A%A4%ED%85%94.jpg?type=w800";
     }
 
     public void setYoutubeProfile(YoutubeProfile youtubeProfile) {
         this.youtubeProfile = youtubeProfile;
+        this.profileImageUrl = youtubeProfile.getBackgroundPhotoUrl();
     }
 
     //--연관관계 메서드--//
-    private List<String> getProfileTagNames() {
+    public List<String> getProfileTagNames() {
         List<String> tagNames = new ArrayList<>();
         for (ProfileTag profileTag : this.profileTags) {
             tagNames.add(profileTag.getTagName());
@@ -63,7 +66,7 @@ public class Profile {
 
 
     //-- 서비스 로직--//
-    public InfluencerProfileResponseDto getInfluencerProfile() {
+    public InfluencerProfileResponseDto getInfluencerProfile(boolean isMine) {
         return new InfluencerProfileResponseDto(
                 this.id,
                 member.getNickname(),
@@ -72,7 +75,8 @@ public class Profile {
                 youtubeProfile.getBackgroundPhotoUrl(),
                 this.getDescription(),
                 youtubeProfile.getSubscribeCount(),
-                this.getProfileTagNames());
+                this.getProfileTagNames(),
+                isMine);
     }
 
     public void modifyInfluencerProfile(InfluencerProfileModifyResponseDto influencerProfileModifyResponseDto) {

@@ -20,8 +20,10 @@ public class InfluencerProfileResponseDto {
     BigInteger subscribeCount;
     String description;
     List<String> profileTagNames;
+    boolean isMine;
 
-    public InfluencerProfileResponseDto(Long profileId, String nickname, String email, String channelName, String profileImageUrl, String description, BigInteger subscribeCount, List<String> profileTagNames) {
+    public InfluencerProfileResponseDto(Long profileId, String nickname, String email, String channelName, String profileImageUrl, String description,
+                                        BigInteger subscribeCount, List<String> profileTagNames, boolean isMine) {
         this.profileId = profileId;
         this.nickname = nickname;
         this.email = email;
@@ -30,5 +32,6 @@ public class InfluencerProfileResponseDto {
         this.description = description;
         this.subscribeCount = subscribeCount;
         this.profileTagNames = profileTagNames;
+        this.isMine = isMine;
     }
 }

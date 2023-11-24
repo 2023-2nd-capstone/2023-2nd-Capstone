@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Profile</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .profile-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .profile-container:hover {
+            transform: scale(1.05);
+        }
+
+        h3 {
+            margin: 5px 0;
+            color: #343a40;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin: 5px;
+            background-color: #01DFA5;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 15px;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 150px; /* Set the maximum height as well if needed */
+            border-radius: 8px;
+            object-fit: cover; /* Maintain aspect ratio and cover container */
+        }
+    </style>
+</head>
+<body>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 20px;">
+    <div style="display: flex;">
+        <button type="button" onclick="window.location.href='/';">날짜순</button>
+        <button type="button" onclick="window.location.href='/?sortBy=popularity';">인기순</button>
+    </div>
+    <span>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=뷰티';">뷰티</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=게임';">게임</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=경제';">경제</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=IT';">IT</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=패션';">패션</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=요리';">요리</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=여행';">여행</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=자동차';">자동차</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=운동';">운동</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=건강';">건강</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=엔터테인먼트';">엔터테인먼트</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=음악';">음악</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=먹방';">먹방</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=동물';">동물</button>
+        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=육아';">육아</button>
+
+
+    </span>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: flex-start; padding: 20px;">
+    <div style="flex-grow: 1;">
+        <div th:each="profileDTO : ${feed}">
+            <a th:href="@{'/profile/' + ${profileDTO.profileId}}" class="profile-link">
+                <div class="profile-container">
+                    <h3 th:if="${profileDTO.imageUrl != null}">
+                        <img th:src="${profileDTO.imageUrl}" alt="Profile Image">
+                    </h3>
+                    <h3 th:text="${profileDTO.nickname}"></h3>
+                    <ul th:if="${profileDTO.tagNames != null}">
+                        <li th:each="tagName : ${profileDTO.tagNames}">
+                            <span th:text="${tagName}"></span>
+                        </li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
