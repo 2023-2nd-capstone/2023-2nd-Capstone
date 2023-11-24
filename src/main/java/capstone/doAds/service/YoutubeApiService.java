@@ -71,7 +71,7 @@ public class YoutubeApiService {
         return null;
     }
 
-    public List<Channel> getChannelData() {
+    public List<Channel> getChannelData(String channelId) {
 
         try {
             youtube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpRequestInitializer() {
@@ -82,7 +82,7 @@ public class YoutubeApiService {
 
             String apiKey = PRIVATE_KEY;
             channels.setKey(apiKey);
-            channels.setId("UCqrXuo5LpHKWVCqvBBjjsuw");
+            channels.setId(channelId);
             channels.setMaxResults(1l);
 
             ChannelListResponse channelListResponse = channels.execute();

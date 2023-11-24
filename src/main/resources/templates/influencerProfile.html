@@ -9,12 +9,13 @@
 <h1 th:text="${profile.nickname} + '의 프로필입니다'"></h1>
 
 <div th:if="${profile != null}">
-    <p th:text="'Nickname: ' + ${profile.nickname}"></p>
-    <p th:text="'Email: ' + ${profile.email}"></p>
-    <p th:text="'Channel Name: ' + ${profile.channelName}"></p>
-    <p th:text="'SubscribeCount: ' + ${profile.subscribeCount}"></p>
-    <p th:text="'ProfileImage URL: ' + ${profile.profileImageUrl}"></p>
-    <p th:text="'Description: ' + ${profile.description}"></p>
+    <p th:text="'닉네임: ' + ${profile.nickname}"></p>
+    <p th:text="'이메일: ' + ${profile.email}"></p>
+    <p th:if="${profile.channelName != null}" th:text="'채널 이름: ' + ${profile.channelName}"></p>
+    <p th:if="${profile.subscribeCount != null}" th:text="'구독자 수: ' + ${profile.subscribeCount}"></p>
+    <p th:text="'프로필 이미지 URL: ' + ${profile.profileImageUrl}"></p>
+    <p th:if="${profile.description != null}" th:text="'채널 설명: ' + ${profile.description}"></p>
+    <p th:text="'좋아요 수: ' + ${profile.likeCount}"></p>
     <div th:if="${profile.profileTagNames != null and not #lists.isEmpty(profile.profileTagNames)}">
         <p>Profile Tags:</p>
         <ul>
