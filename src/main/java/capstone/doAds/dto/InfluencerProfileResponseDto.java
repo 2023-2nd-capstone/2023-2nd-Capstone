@@ -21,9 +21,10 @@ public class InfluencerProfileResponseDto {
     String description;
     List<String> profileTagNames;
     boolean isMine;
+    Long likeCount;
 
     public InfluencerProfileResponseDto(Long profileId, String nickname, String email, String channelName, String profileImageUrl, String description,
-                                        BigInteger subscribeCount, List<String> profileTagNames, boolean isMine) {
+                                        BigInteger subscribeCount, List<String> profileTagNames, boolean isMine, Long likeCount) {
         this.profileId = profileId;
         this.nickname = nickname;
         this.email = email;
@@ -33,5 +34,6 @@ public class InfluencerProfileResponseDto {
         this.subscribeCount = subscribeCount;
         this.profileTagNames = profileTagNames;
         this.isMine = isMine;
+        this.likeCount = likeCount;
     }
 }

@@ -75,7 +75,8 @@ public class Profile {
                 this.getDescription(),
                 youtubeProfile.getSubscribeCount(),
                 this.getProfileTagNames(),
-                isMine);
+                isMine,
+                this.likeCount);
     }
 
     public void modifyInfluencerProfile(InfluencerProfileModifyResponseDto influencerProfileModifyResponseDto) {
