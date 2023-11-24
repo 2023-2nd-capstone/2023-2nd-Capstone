@@ -3,6 +3,7 @@ package capstone.doAds.controller;
 import capstone.doAds.dto.FeedDto;
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
+import capstone.doAds.dto.NicknameSearchResponseDto;
 import capstone.doAds.service.LikesService;
 import capstone.doAds.service.ProfileService;
 import capstone.doAds.service.TagService;
@@ -77,5 +78,21 @@ public class ProfileController {
         model.addAttribute("feed", feed);
         model.addAttribute("tagNames", tagNames);
         return "feed";
+    }
+
+    @GetMapping("/search")
+    public String showSearchForm() {
+        return "nicknameSearchForm";
+    }
+
+
+    @PostMapping("/search")
+    public String getProfileByNickname(@RequestParam("nickname") String nickname, Model model) {
+        List<NicknameSearchResponseDto> searchResults = profileService.getProfileByNickname(nickname);
+
+        model.addAttribute("searchResults", searchResults);
+        model.addAttribute("searchQuery", nickname);
+
+        return "nicknameSearchResult";
     }
 }

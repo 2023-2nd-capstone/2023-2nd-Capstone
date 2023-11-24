@@ -8,6 +8,7 @@ import capstone.doAds.domain.Tag;
 import capstone.doAds.dto.FeedDto;
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
+import capstone.doAds.dto.NicknameSearchResponseDto;
 import capstone.doAds.exception.NotFoundException;
 import capstone.doAds.exception.UnauthorizedException;
 import capstone.doAds.repository.*;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,7 +59,12 @@ public class ProfileService {
         }
         profileRepository.save(profile);
     }
-
+  
+    public List<NicknameSearchResponseDto> getProfileByNickname(String nickname) {
+        List<Profile> profiles = profileRepository.findAllByNickname(nickname);
+        return profiles.stream().map(p -> p.getNicknameSearch()).collect(Collectors.toList());
+    }
+  
     public List<FeedDto> getFeed() {
         List<Profile> profiles = profileRepository.findAll();
         return profiles.stream()

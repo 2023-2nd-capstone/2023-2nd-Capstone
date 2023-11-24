@@ -2,6 +2,7 @@ package capstone.doAds.domain;
 
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
+import capstone.doAds.dto.NicknameSearchResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -83,6 +84,16 @@ public class Profile {
         this.description = influencerProfileModifyResponseDto.getDescription();
         this.profileImageUrl = influencerProfileModifyResponseDto.getProfileImageUrl();
         member.modifyNickname(influencerProfileModifyResponseDto.getNickname());
+    }
+
+    public NicknameSearchResponseDto getNicknameSearch() {
+        return new NicknameSearchResponseDto(
+                member.getNickname(),
+                youtubeProfile.getChannelName(),
+                this.getProfileImageUrl(),
+                this.getLikeCount(),
+                this.getProfileTagNames()
+        );
     }
 
     public Long decreaseLikesCount() {
