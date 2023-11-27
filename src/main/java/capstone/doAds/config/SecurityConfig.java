@@ -40,7 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 인증된 사용자이지만 인가되지 않은 경로에 접근시 리다이랙팅 시킬 uri 지정
         http.exceptionHandling().accessDeniedPage("/forbidden");
         // logout
-        http.logout().logoutUrl("/logout").logoutSuccessUrl("/");
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll();
 
         http.userDetailsService(principalDetailsService);
         http

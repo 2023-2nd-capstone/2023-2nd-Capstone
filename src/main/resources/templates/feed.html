@@ -96,6 +96,14 @@
         <button type="button" onclick="window.location.href='/';">날짜순</button>
         <button type="button" onclick="window.location.href='/?sortBy=popularity';">인기순</button>
     </div>
+    <div>
+        <div th:if="${#request.userPrincipal != null}">
+            <button type="button" onclick="window.location.href='/logout';">로그아웃</button>
+        </div>
+        <div th:unless="${#request.userPrincipal != null}">
+            <button type="button" onclick="window.location.href='/loginForm';">로그인</button>
+        </div>
+    </div>
     <div class="tag-buttons">
         <button type="button" onclick="window.location.href='/?sortBy=tag&tag=뷰티';">뷰티</button>
         <button type="button" onclick="window.location.href='/?sortBy=tag&tag=게임';">게임</button>
