@@ -2,17 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 페이지</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #343a40;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>로그인 페이지</h1>
-    <hr>
-    <form action="/login" method="POST">
-        <input type="text" name="username" placeholder="Username"/> <br/>
-        <input type="password" name="password" placeholder="Password"/> <br/>
-        <button>로그인</button>
-    </form>
-    <a href="/oauth2/authorization/google">구글 로그인</a>
+<h1>로그인 페이지</h1>
+<hr>
+<form action="/login" method="POST">
+    <input type="text" name="username" placeholder="Username" required/> <br/>
+    <input type="password" name="password" placeholder="Password" required/> <br/>
+    <button>로그인</button>
+</form>
+<a href="/oauth2/authorization/google">구글 로그인</a>
 <a href="/joinForm">회원가입</a>
 </body>
 </html>
