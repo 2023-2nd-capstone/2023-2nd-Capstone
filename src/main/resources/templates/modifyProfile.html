@@ -4,6 +4,81 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Profile</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #343a40;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      border-radius: 5px;
+    }
+
+    .tag-checkboxes {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .tag-checkbox {
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    p {
+      margin-top: 20px;
+      color: #dc3545;
+    }
+  </style>
 </head>
 <body>
 <h1 th:text="${profile.nickname} + '의 프로필 수정'"></h1>
@@ -19,9 +94,11 @@
     <label for="description">Description:</label><br>
     <textarea id="description" name="description" rows="4" cols="50" th:text="${profile.description}"></textarea><br>
 
-    <div th:each="tag : ${tagNames}">
-      <input type="checkbox" id="tag" name="profileTagNames" th:value="${tag}" th:checked="${profile.profileTagNames.contains(tag)}">
-      <label th:text="${tag}"></label><br>
+    <div class="tag-checkboxes" th:each="tag : ${tagNames}">
+      <div class="tag-checkbox">
+        <input type="checkbox" id="tag" name="profileTagNames" th:value="${tag}" th:checked="${profile.profileTagNames.contains(tag)}">
+        <label th:text="${tag}" style="margin-left: 5px;"></label>
+      </div>
     </div>
 
     <input type="submit" value="Submit">
@@ -31,3 +108,5 @@
 <div th:if="${profile == null}">
   <p>User profile not found. Unable to edit.</p>
 </div>
+</body>
+</html>
