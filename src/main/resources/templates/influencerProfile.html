@@ -4,32 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left; /* Left-align text within the container */
+        }
+
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #495057;
+            margin: 5px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        li {
+            display: inline-block;
+            margin: 5px;
+            background-color: #01DFA5;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #343a40;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+
+        .back-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<h1 th:text="${profile.nickname} + '의 프로필입니다'"></h1>
+<div class="container">
+    <h1 th:text="${profile.nickname} + '의 프로필입니다'"></h1>
 
-<div th:if="${profile != null}">
-    <p th:text="'닉네임: ' + ${profile.nickname}"></p>
-    <p th:text="'이메일: ' + ${profile.email}"></p>
-    <p th:if="${profile.channelName != null}" th:text="'채널 이름: ' + ${profile.channelName}"></p>
-    <p th:if="${profile.subscribeCount != null}" th:text="'구독자 수: ' + ${profile.subscribeCount}"></p>
-    <p th:text="'프로필 이미지 URL: ' + ${profile.profileImageUrl}"></p>
-    <p th:if="${profile.description != null}" th:text="'채널 설명: ' + ${profile.description}"></p>
-    <p th:text="'좋아요 수: ' + ${profile.likeCount}"></p>
-    <div th:if="${profile.profileTagNames != null and not #lists.isEmpty(profile.profileTagNames)}">
-        <p>Profile Tags:</p>
-        <ul>
-            <li th:each="tagName : ${profile.profileTagNames}" th:text="${tagName}"></li>
-        </ul>
+    <div th:if="${profile != null}">
+        <p th:text="'닉네임: ' + ${profile.nickname}"></p>
+        <p th:text="'이메일: ' + ${profile.email}"></p>
+        <p th:if="${profile.channelName != null}" th:text="'채널 이름: ' + ${profile.channelName}"></p>
+        <p th:if="${profile.subscribeCount != null}" th:text="'구독자 수: ' + ${profile.subscribeCount}"></p>
+        <p th:text="'프로필 이미지 URL: ' + ${profile.profileImageUrl}"></p>
+        <p th:if="${profile.description != null}" th:text="'채널 설명: ' + ${profile.description}"></p>
+        <p th:text="'좋아요 수: ' + ${profile.likeCount}"></p>
+        <div th:if="${profile.profileTagNames != null and not #lists.isEmpty(profile.profileTagNames)}">
+            <p>Profile Tags:</p>
+            <ul>
+                <li th:each="tagName : ${profile.profileTagNames}" th:text="${tagName}"></li>
+            </ul>
+        </div>
     </div>
-    <!-- Add more fields as needed -->
-</div>
-<form th:if="${profile.isMine == false}" th:action="@{/profile/{profileId}/likes(profileId=${profile.profileId})}" method="post">
-    <input type="submit" value="좋아요">
-</form>
-<button th:if="${profile.isMine == true}" th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
-<div th:if="${profile == null}">
-    <p>User profile not found.</p>
+
+    <form th:if="${profile.isMine == false}" th:action="@{/profile/{profileId}/likes(profileId=${profile.profileId})}" method="post">
+        <input type="submit" value="좋아요">
+    </form>
+
+    <button th:if="${profile.isMine == true}" th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
+
+    <button class="back-button" onclick="window.location.href='/';">홈 화면</button>
+
+    <div th:if="${profile == null}">
+        <p class="error">User profile not found.</p>
+    </div>
 </div>
 </body>
 </html>
