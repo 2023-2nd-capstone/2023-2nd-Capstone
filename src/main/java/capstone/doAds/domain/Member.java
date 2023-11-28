@@ -32,12 +32,21 @@ public class Member {
     private List<Likes> likes = new ArrayList<>();
 
     @Builder
-    public Member(String email, String password, String nickname, Authority authority, Profile profile) {
+    public Member(String email, String password, String nickname, Authority authority) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.authority = authority;
         this.profile = new Profile();
+    }
+
+    @Builder
+    public Member(String email, String password, String nickname, Authority authority, Profile profile) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.authority = authority;
+        this.profile = profile;
     }
 
     public void modifyNickname(String nickname) {

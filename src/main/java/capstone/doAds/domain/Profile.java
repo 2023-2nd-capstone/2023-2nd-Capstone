@@ -43,6 +43,13 @@ public class Profile {
         this.youtubeProfile = new YoutubeProfile();
     }
 
+    public Profile(String description, String profileImageUrl, Long likeCount, YoutubeProfile youtubeProfile) {
+        this.description = description;
+        this.profileImageUrl = profileImageUrl;
+        this.likeCount = likeCount;
+        this.youtubeProfile = youtubeProfile;
+    }
+
     public void setYoutubeProfile(YoutubeProfile youtubeProfile) {
         this.youtubeProfile = youtubeProfile;
         this.profileImageUrl = youtubeProfile.getBackgroundPhotoUrl();

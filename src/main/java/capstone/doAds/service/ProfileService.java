@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,12 +33,13 @@ public class ProfileService {
     private final ProfileTagRepository profileTagRepository;
 
     public InfluencerProfileResponseDto getInfluencerProfile(Long profileId) {
-        Member member = memberRepository.findByEmailFetchProfile(SecurityUtils.getLoggedUserEmail()).orElseThrow(
-                () -> new NotFoundException("로그인이 필요합니다.")
-        );
+        Optional<Member> member = memberRepository.findByEmailFetchProfile(SecurityUtils.getLoggedUserEmail());
         Profile profile = profileRepository.findById(profileId).orElseThrow(
                 () -> new NotFoundException("프로필(아이디: " + profileId + ")를 찾을 수 없습니다."));
-        return profile.getInfluencerProfile(member.getProfile().equals(profile));
+        if (member.isEmpty()) {
+            return profile.getInfluencerProfile(false);
+        }
+        return profile.getInfluencerProfile(member.get().getProfile().equals(profile));
     }
 
     public InfluencerProfileResponseDto getMyProfile() {
