@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+
+    <!-- Google Fonts로부터 Noto Sans KR 추가 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Noto Sans KR', sans-serif;
             background-color: #f8f9fa;
             margin: 0;
             padding: 20px;
@@ -14,23 +18,56 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
+        }
+
+        .profile-card {
             background-color: #fff;
-            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: left; /* Left-align text within the container */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
         }
 
         h1 {
             color: #343a40;
             margin-bottom: 20px;
+            font-size: 1.5em;
         }
 
-        p {
+        .profile-details {
+            display: flex;
+            flex-direction: column; /* Align boxes vertically */
+            text-align: left;
+        }
+
+        .info-box {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .info-label {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .info-content {
             color: #495057;
-            margin: 5px 0;
+            margin-bottom: 10px;
         }
 
         ul {
@@ -49,13 +86,23 @@
             font-size: 0.8em;
         }
 
-        form {
-            margin-top: 20px;
+        .like-count {
+            font-size: 1.2em;
+            display: inline-block; /* Ensures the heart emoji is on the same line as the text */
         }
 
-        button {
-            margin-top: 10px;
-            padding: 10px;
+        .like-emoji {
+            display: inline-block; /* Ensures the heart emoji is on the same line as the text */
+            margin-right: 5px; /* Adds some space between the heart emoji and the like count */
+        }
+
+        form {
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        input[type="submit"] {
+            padding: 10px 15px;
             background-color: #343a40;
             color: #fff;
             border: none;
@@ -64,67 +111,89 @@
             font-size: 1em;
         }
 
-        button:hover {
-            background-color: #555;
+        button, .back-button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: center;
         }
 
-        .error {
-            color: #dc3545;
+        button {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        button:hover, .back-button:hover {
+            background-color: #555;
         }
 
         .back-button {
             background-color: #007bff;
             color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
         }
 
-        .back-button:hover {
-            background-color: #0056b3;
-        }
-
-        img {
-            weight: 120px;
-            height: 120px;
-            border-radius: 100%;
-            object-fit: cover;
-            text-align: center;
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <img th:src="${profile.profileImageUrl}" alt="Profile Image">
-    <h1 th:text="${profile.nickname} + '의 프로필입니다'"></h1>
+    <div class="profile-card">
+        <img th:src="${profile.profileImageUrl}" alt="Profile Image">
+        <h1 th:text="${profile.nickname} + '의 프로필입니다'"></h1>
 
-    <div th:if="${profile != null}">
-        <p th:text="'닉네임: ' + ${profile.nickname}"></p>
-        <p th:text="'이메일: ' + ${profile.email}"></p>
-        <p th:if="${profile.channelName != null}" th:text="'채널 이름: ' + ${profile.channelName}"></p>
-        <p th:if="${profile.subscribeCount != null}" th:text="'구독자 수: ' + ${profile.subscribeCount}"></p>
-        <p th:if="${profile.description != null}" th:text="'채널 설명: ' + ${profile.description}"></p>
-        <p th:text="'좋아요 수: ' + ${profile.likeCount}"></p>
-        <div th:if="${profile.profileTagNames != null and not #lists.isEmpty(profile.profileTagNames)}">
-            <p>태그</p>
-            <ul>
-                <li th:each="tagName : ${profile.profileTagNames}" th:text="${tagName}"></li>
-            </ul>
+        <div class="profile-details" th:if="${profile != null}">
+            <div class="info-box">
+                <div class="info-label">기본 정보</div>
+                <div class="info-content">
+                    <p th:text="'닉네임: ' + ${profile.nickname}"></p>
+                    <p th:text="'이메일: ' + ${profile.email}"></p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">채널 정보</div>
+                <div class="info-content">
+                    <p th:if="${profile.channelName != null}" th:text="'채널 이름: ' + ${profile.channelName}"></p>
+                    <p th:if="${profile.subscribeCount != null}" th:text="'구독자 수: ' + ${profile.subscribeCount}"></p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">추가 정보</div>
+                <div class="info-content">
+                    <p th:if="${profile.description != null}" th:text="'채널 설명: ' + ${profile.description}"></p>
+                    <p>좋아요 수:
+                        <span class="like-emoji">❤️</span>
+                        <span class="like-count" th:text="${profile.likeCount}"></span>
+                    </p>
+                    <div th:if="${profile.profileTagNames != null and not #lists.isEmpty(profile.profileTagNames)}">
+                        <h3>태그</h3>
+                        <ul>
+                            <li th:each="tagName : ${profile.profileTagNames}" th:text="${tagName}"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <form th:if="${profile.isMine == false}" th:action="@{/profile/{profileId}/likes(profileId=${profile.profileId})}" method="post">
-        <input type="submit" value="좋아요">
-    </form>
+        <form th:if="${profile.isMine == false}" th:action="@{/profile/{profileId}/likes(profileId=${profile.profileId})}" method="post">
+            <input type="submit" value="좋아요">
+        </form>
 
-    <button th:if="${profile.isMine == true}" th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
+        <button th:if="${profile.isMine == true}" th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
 
-    <button class="back-button" onclick="window.location.href='/';">홈 화면</button>
+        <button class="back-button" onclick="window.location.href='/';">홈 화면</button>
 
-    <div th:if="${profile == null}">
-        <p class="error">User profile not found.</p>
+        <div th:if="${profile == null}">
+            <p class="error">User profile not found.</p>
+        </div>
     </div>
 </div>
 </body>
