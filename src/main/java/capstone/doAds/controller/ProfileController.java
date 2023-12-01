@@ -78,13 +78,13 @@ public class ProfileController {
         return "feed";
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/nickname")
     public String showSearchForm() {
         return "nicknameSearchForm";
     }
 
 
-    @PostMapping("/search")
+    @PostMapping("/search/nickname/result")
     public String getProfileByNickname(@RequestParam("nickname") String nickname, Model model) {
         List<NicknameSearchResponseDto> searchResults = profileService.getProfileByNickname(nickname);
 
