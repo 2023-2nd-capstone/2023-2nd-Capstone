@@ -1,15 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>닉네임 검색 페이지</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do Ads - Influencer Profile</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .profile-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .profile-container:hover {
+            transform: scale(1.05);
+        }
+
+        h3 {
+            margin: 10px 0;
+            color: #343a40;
+            font-size: 1.2em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        li {
+            display: inline-block;
+            margin: 5px;
+            background-color: #01DFA5;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+        }
+
+        img {
+            width: 120px;
+            height: 120px;
+            border-radius: 100%;
+            object-fit: cover;
+        }
+
+        .search-buttons {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #343a40;
+            color: #fff;
+            width: 100%;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-left: auto; /* 화면 오른쪽에 배치 */
+            align-items: center; /* 세로 중앙 정렬 */
+        }
+
+        .button {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background-color: #1E272E;
+        }
+
+        .button:hover {
+            text-decoration: underline;
+        }
+
+        /* 수정한 부분 */
+        .popular-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .popular-container button {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background-color: #1E272E;
+        }
+
+        .popular-container button:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+            width: 100%;
+        }
+
+        .search-input {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            margin-right: 10px;
+            width: 200px; /* 원하는 너비 조절 */
+            box-sizing: border-box; /* 내용의 너비에 padding과 border를 포함 */
+        }
+
+        .search-button {
+            background-color: #343a40;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            text-decoration: underline;
+        }
+
+        .tag-buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .tag-buttons button {
+            margin: 10px;
+            background-color: #1E272E;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+
+        .profile-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px; /* 조금 띄워주기 */
+        }
+    </style>
 </head>
 <body>
-<h1>닉네임 검색 페이지</h1>
-<hr>
-<form action="/search" method="POST">
-    <input type="text" name="nickname" placeholder="Nickname"/> <br/>
-    <button>검색</button>
-</form>
+<div class="search-buttons">
+    <div>
+        <a th:href="@{'/'}" class="logo">Do Ads</a>
+    </div>
+
+    <div class="button-container">
+        <button type="button" onclick="window.location.href='/';">날짜순</button>
+        <div class="popular-container">
+            <button type="button" onclick="window.location.href='/?sortBy=popularity';">인기순</button>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <div th:if="${#request.userPrincipal != null}">
+            <button type="button" onclick="window.location.href='/logout';">로그아웃</button>
+        </div>
+        <div th:unless="${#request.userPrincipal != null}">
+            <a th:href="@{/loginForm}" class="button">로그인</a>
+        </div>
+        <a th:href="@{/search/nickname}" class="button">닉네임 검색</a>
+    </div>
+</div>
+
+<div class="search-container">
+    <form action="/search/nickname/result" method="POST">
+        <input type="text" name="nickname" class="search-input" placeholder="닉네임 검색">
+        <button type="submit" class="search-button">검색</button>
+    </form>
+</div>
+
+<div class="tag-buttons">
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=뷰티';">뷰티</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=게임';">게임</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=경제';">경제</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=IT';">IT</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=패션';">패션</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=요리';">요리</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=여행';">여행</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=자동차';">자동차</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=운동/건강';">운동/건강</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=연예인/BJ';">연예인/BJ</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=음악';">음악</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=먹방';">먹방</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=애완/반려동물';">애완/반려동물</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=키즈/어린이';">키즈/어린이</button>
+    <!-- 다른 태그에 대한 버튼들도 유사하게 작성 -->
+</div>
+
+<div class="profile-list">
+    <div th:each="profileDTO : ${feed}">
+        <a th:href="@{'/profile/' + ${profileDTO.profileId}}" class="profile-link">
+            <div class="profile-container">
+                <h3 th:if="${profileDTO.imageUrl != null}">
+                    <img th:src="${profileDTO.imageUrl}" alt="Profile Image">
+                </h3>
+                <h3 th:text="${profileDTO.nickname}"></h3>
+                <ul th:if="${profileDTO.tagNames != null}">
+                    <li th:each="tagName : ${profileDTO.tagNames}">
+                        <span th:text="${tagName}"></span>
+                    </li>
+                </ul>
+            </div>
+        </a>
+    </div>
+</div>
 </body>
 </html>
