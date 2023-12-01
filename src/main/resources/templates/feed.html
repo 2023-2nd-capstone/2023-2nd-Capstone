@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Influencer Profile</title>
+    <title>Do Ads - Influencer Profile</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,7 +12,7 @@
             padding: 0;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between;
         }
 
         .profile-container {
@@ -53,7 +53,7 @@
         }
 
         img {
-            weight: 120px;
+            width: 120px;
             height: 120px;
             border-radius: 100%;
             object-fit: cover;
@@ -61,17 +61,23 @@
 
         .search-buttons {
             display: flex;
-            justify-content: space-around;
             align-items: center;
             padding: 20px;
-            width: 100%;
             background-color: #343a40;
             color: #fff;
+            width: 100%;
+        }
+
+        .tag-buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            width: 100%;
         }
 
         .tag-buttons button {
-            margin-right: 5px;
-            background-color: #343a40;
+            margin: 10px;
+            background-color: #1E272E;
             color: #fff;
             border: none;
             padding: 8px 12px;
@@ -88,15 +94,93 @@
             padding: 20px;
             width: 100%;
         }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px; /* 조금 띄워주기 */
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-left: auto; /* 화면 오른쪽에 배치 */
+            align-items: center; /* 세로 중앙 정렬 */
+        }
+
+        .button {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background-color: #1E272E;
+        }
+
+        .button:hover {
+            text-decoration: underline;
+        }
+
+        /* 수정한 부분 */
+        .popular-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .popular-container button {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background-color: #1E272E;
+        }
+
+        .popular-container button:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .search-input {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            background-color: #1E272E;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 <div class="search-buttons">
     <div>
-        <button type="button" onclick="window.location.href='/';">날짜순</button>
-        <button type="button" onclick="window.location.href='/?sortBy=popularity';">인기순</button>
+        <a th:href="@{'/'}" class="logo">Do Ads</a>
     </div>
-    <div>
+
+    <div class="button-container">
+        <button type="button" onclick="window.location.href='/';">날짜순</button>
+        <div class="popular-container">
+            <button type="button" onclick="window.location.href='/?sortBy=popularity';">인기순</button>
+        </div>
+    </div>
+
+    <div class="button-container">
         <div th:if="${#request.userPrincipal != null}">
             <button type="button" onclick="window.location.href='/logout';">로그아웃</button>
             <button type="button" onclick="window.location.href='/messages/room';">메시지</button>
@@ -104,26 +188,28 @@
 
         </div>
         <div th:unless="${#request.userPrincipal != null}">
-            <button type="button" onclick="window.location.href='/loginForm';">로그인</button>
+            <a th:href="@{/loginForm}" class="button">로그인</a>
         </div>
+        <a th:href="@{/search/nickname}" class="button">닉네임 검색</a>
     </div>
-    <div class="tag-buttons">
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=뷰티';">뷰티</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=게임';">게임</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=경제';">경제</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=IT';">IT</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=패션';">패션</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=요리';">요리</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=여행';">여행</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=자동차';">자동차</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=운동/건강';">운동/건강</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=연예인/BJ';">연예인/BJ</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=음악';">음악</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=먹방';">먹방</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=애완/반려동물';">애완/반려동물</button>
-        <button type="button" onclick="window.location.href='/?sortBy=tag&tag=키즈/어린이';">키즈/어린이</button>
-        <!-- 다른 태그에 대한 버튼들도 유사하게 작성 -->
-    </div>
+</div>
+
+<div class="tag-buttons">
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=뷰티';">뷰티</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=게임';">게임</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=경제';">경제</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=IT';">IT</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=패션';">패션</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=요리';">요리</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=여행';">여행</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=자동차';">자동차</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=운동/건강';">운동/건강</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=연예인/BJ';">연예인/BJ</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=음악';">음악</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=먹방';">먹방</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=애완/반려동물';">애완/반려동물</button>
+    <button type="button" onclick="window.location.href='/?sortBy=tag&tag=키즈/어린이';">키즈/어린이</button>
+    <!-- 다른 태그에 대한 버튼들도 유사하게 작성 -->
 </div>
 
 <div class="profile-list">
