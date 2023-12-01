@@ -82,6 +82,16 @@
             font-size: 1em;
         }
 
+         .like-button {
+            background-color: #F78181;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
         .back-button:hover {
             background-color: #0056b3;
         }
@@ -116,12 +126,14 @@
     </div>
 
     <form th:if="${profile.isMine == false}" th:action="@{/profile/{profileId}/likes(profileId=${profile.profileId})}" method="post">
-        <input type="submit" value="좋아요">
+        <input class="like-button" type="submit" value="좋아요">
     </form>
 
-    <button th:if="${profile.isMine == true}" th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
+    <button class="back-button" th:if="${profile.isMine == true}" th:onclick="'location.href=\'/profile/' + ${profile.profileId} + '/modifyProfile\''">프로필 수정</button>
 
     <button class="back-button" onclick="window.location.href='/';">홈 화면</button>
+
+    <button class="back-button" th:if="${profile.isMine == false}" th:onclick="'location.href=\'/messages/' + ${profile.memberId} + '/send\''">메시지 보내기</button>
 
     <div th:if="${profile == null}">
         <p class="error">User profile not found.</p>

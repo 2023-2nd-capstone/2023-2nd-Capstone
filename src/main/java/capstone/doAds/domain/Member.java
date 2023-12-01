@@ -28,6 +28,9 @@ public class Member {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
+    @OneToMany(mappedBy = "from", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<MessageRoom> messageRooms = new ArrayList<>();
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Likes> likes = new ArrayList<>();
 

@@ -10,7 +10,6 @@ import capstone.doAds.service.MemberService;
 import capstone.doAds.service.ProfileService;
 import capstone.doAds.service.YoutubeApiService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.api.services.youtube.model.Channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller

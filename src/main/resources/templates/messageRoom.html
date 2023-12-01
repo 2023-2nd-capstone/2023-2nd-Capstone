@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메시지 방</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+      .back-button {
+          background-color: #007bff;
+          color: #fff;
+          padding: 10px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 1em;
+      }
+</style>
+<body>
+<div class="container">
+    <h1>메시지 목록</h1>
+    <ul class="list-group">
+        <li class="list-group-item" th:each="messageDto : ${messageDtoList}">
+            <img th:src="${messageDto.profileUrl}" alt="프로필 이미지" width="50" height="50">
+            <span th:text="${messageDto.nickname}"></span>
+            <p class="ml-2" th:text="${messageDto.content}"></p>
+        </li>
+    </ul>
+
+    <button th:onclick="'location.href=\'/messages/room/' + ${roomId} + '/send\''">메시지 보내기</button>
+
+    <button class="back-button" onclick="location.href='/messages/room'">메시지 방 목록으로 가기</button>
+</div>
+
+</body>
+</html>

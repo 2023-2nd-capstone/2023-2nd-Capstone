@@ -5,6 +5,7 @@ import capstone.doAds.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class DataLoader implements ApplicationRunner {
     private final YoutubeProfileRepository youtubeProfileRepository;
     private final ProfileTagRepository profileTagRepository;
     private final LikesRepository likesRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     @Transactional
@@ -39,10 +41,11 @@ public class DataLoader implements ApplicationRunner {
         Tag 동물 = tagRepository.save(new Tag("애완/반려동물"));
         Tag 육아 = tagRepository.save(new Tag("키즈/어린이"));
 
+        String dummy = bCryptPasswordEncoder.encode("dummy");
         Profile J_Fla_P = new Profile("음악 유튜버 제이플라입니다.", "https://yt3.googleusercontent.com/UKbftWD63Uw2cDaEV8_k9cgjfStGWQgonuxyLNMun5GKSO0UQfEyXwnaVI7bqUYrEizDKG9aUNM=s176-c-k-c0x00ffffff-no-rj", 0l, new YoutubeProfile("J.Fla", "음악 유튜버 제이플라입니다.", new BigInteger("17500000"), "https://yt3.googleusercontent.com/UKbftWD63Uw2cDaEV8_k9cgjfStGWQgonuxyLNMun5GKSO0UQfEyXwnaVI7bqUYrEizDKG9aUNM=s176-c-k-c0x00ffffff-no-rj"));
         J_Fla_P.addTags(new ProfileTag(J_Fla_P, 음악));
         profileRepository.save(J_Fla_P);
-        Member J_Fla = new Member("dummy1@dummy", "dummy", "J.Fla", Authority.ROLE_INFLUENCER, J_Fla_P);
+        Member J_Fla = new Member("dummy1@dummy", dummy, "J.Fla", Authority.ROLE_INFLUENCER, J_Fla_P);
         memberRepository.save(J_Fla);
 
         Profile 김한용_P = new Profile("자동차 유튜버 김한용입니다.", "https://yt3.ggpht.com/ytc/APkrFKbGtWEHhGI5T19QBU55jNFmehoJXutk8GjnX7xSdg=s240-c-k-c0x00ffffff-no-rj", 0l, new YoutubeProfile("김한용의 MOCAR", "자동차 유튜버 제이플라입니다.", new BigInteger("1080000"), "https://yt3.ggpht.com/ytc/APkrFKbGtWEHhGI5T19QBU55jNFmehoJXutk8GjnX7xSdg=s240-c-k-c0x00ffffff-no-rj"));
