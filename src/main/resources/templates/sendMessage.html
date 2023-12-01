@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>메시지 보내기</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1>메시지 보내기</h1>
+  <form action="#" method="post" th:object="${messageDto}">
+    <div class="form-group">
+      <label for="content">메시지 내용</label>
+      <textarea class="form-control" id="content" rows="3" th:field="*{content}"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">보내기</button>
+  </form>
+</div>
+</body>
+</html>

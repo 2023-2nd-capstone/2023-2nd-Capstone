@@ -183,6 +183,9 @@
     <div class="button-container">
         <div th:if="${#request.userPrincipal != null}">
             <button type="button" onclick="window.location.href='/logout';">로그아웃</button>
+            <button type="button" onclick="window.location.href='/messages/room';">메시지</button>
+            <button th:if="${profileId != null}" type="button" th:onclick="|window.location.href='/profile/${profileId}'|">내 프로필</button>
+
         </div>
         <div th:unless="${#request.userPrincipal != null}">
             <a th:href="@{/loginForm}" class="button">로그인</a>

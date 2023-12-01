@@ -1,10 +1,7 @@
 package capstone.doAds.service;
 
 import capstone.doAds.auth.SecurityUtils;
-import capstone.doAds.domain.Member;
-import capstone.doAds.domain.Profile;
-import capstone.doAds.domain.ProfileTag;
-import capstone.doAds.domain.Tag;
+import capstone.doAds.domain.*;
 import capstone.doAds.dto.FeedDto;
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
@@ -26,8 +23,6 @@ import java.util.stream.Collectors;
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
-    private final YoutubeProfileRepository youtubeProfileRepository;
-    private final YoutubeApiService youtubeApiService;
     private final MemberRepository memberRepository;
     private final TagRepository tagRepository;
     private final ProfileTagRepository profileTagRepository;
@@ -69,21 +64,21 @@ public class ProfileService {
     public List<FeedDto> getFeed() {
         List<Profile> profiles = profileRepository.findAll();
         return profiles.stream()
-                .filter(profile -> profile.getYoutubeProfile() != null)
+                .filter(profile -> profile.getMember().getAuthority().equals(Authority.ROLE_INFLUENCER))
                 .map(profile -> new FeedDto(profile))
                 .collect(Collectors.toList());
     }
 
     public List<FeedDto> getFeedByPopular() {
         return profileRepository.findProfileByPopular().stream()
-                .filter(profile -> profile.getYoutubeProfile() != null)
+                .filter(profile -> profile.getMember().getAuthority().equals(Authority.ROLE_INFLUENCER))
                 .map(profile -> new FeedDto(profile))
                 .collect(Collectors.toList());
     }
 
     public List<FeedDto> getFeedByTag(String tagName) {
         return profileRepository.findProfileByTagName(tagName).stream()
-                .filter(profile -> profile.getYoutubeProfile() != null && profile.getProfileTagNames().contains(tagName))
+                .filter(profile -> profile.getMember().getAuthority().equals(Authority.ROLE_INFLUENCER) && profile.getProfileTagNames().contains(tagName))
                 .map(profile -> new FeedDto(profile))
                 .collect(Collectors.toList());
     }

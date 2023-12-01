@@ -1,9 +1,12 @@
 package capstone.doAds.controller;
 
+import capstone.doAds.auth.SecurityUtils;
+import capstone.doAds.domain.Member;
 import capstone.doAds.dto.FeedDto;
 import capstone.doAds.dto.InfluencerProfileModifyResponseDto;
 import capstone.doAds.dto.InfluencerProfileResponseDto;
 import capstone.doAds.dto.NicknameSearchResponseDto;
+import capstone.doAds.repository.MemberRepository;
 import capstone.doAds.service.LikesService;
 import capstone.doAds.service.ProfileService;
 import capstone.doAds.service.TagService;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,6 +29,7 @@ public class ProfileController {
     private final ProfileService profileService;
     private final LikesService likesService;
     private final TagService tagService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/profile/{profile_id}")
     public String getInfluencerProfile(@PathVariable("profile_id") Long profileId, Model model) {
@@ -75,6 +80,12 @@ public class ProfileController {
         List<String> tagNames = tagService.getTagNames();
         model.addAttribute("feed", feed);
         model.addAttribute("tagNames", tagNames);
+        Optional<Member> member = memberRepository.findByEmail(SecurityUtils.getLoggedUserEmail());
+        if (member.isEmpty()) {
+            model.addAttribute("profileId", null);
+        } else {
+            model.addAttribute("profileId", member.get().getProfile().getId());
+        }
         return "feed";
     }
 
